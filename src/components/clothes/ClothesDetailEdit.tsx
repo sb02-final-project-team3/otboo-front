@@ -2,8 +2,6 @@ import { Avatar, Box, Button, MenuItem, Stack, TextField } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { type ClothesAttributeDefDto, type ClothesDto, ClothesTypeLabel } from '../../types/clothes';
 import type { ClothesAttributeWithDefDto } from '../../types/common';
-import { getClothesByUrl } from '../../api/clothes';
-import useAlertStore from '../../stores/alertStore';
 
 interface Props {
   clothes: ClothesDto;
@@ -19,7 +17,6 @@ export default function ClothesDetailEdit({ clothes, attributeDefinitions, onCha
 
   const [editedClothes, setEditedClothes] = useState<ClothesDto>(deepCopy(clothes));
   const [imageFile, setImageFile] = useState<File | undefined>(undefined);
-  const { openErrorAlert } = useAlertStore();
 
   useEffect(() => {
     const deepCopiedClothes: ClothesDto = deepCopy(clothes);
@@ -92,30 +89,6 @@ export default function ClothesDetailEdit({ clothes, attributeDefinitions, onCha
     }
   }, [imageFile]);
 
-  const handleSearchByUrl = useCallback(async () => {
-    const url = prompt('URL을 입력하세요');
-    if (!url) {
-      return;
-    }
-    try {
-      const clothes = await getClothesByUrl(url);
-      if (clothes.imageUrl) {
-        fetch(clothes.imageUrl)
-          .then((res) => res.blob())
-          .then((blob) => {
-            const filename = clothes.imageUrl?.split('/').pop() || 'image';
-            setImageFile(new File([blob], filename));
-          });
-      }
-      setEditedClothes({
-        ...editedClothes,
-        ...Object.fromEntries(Object.entries(clothes).filter(([_, value]) => value !== null)),
-      });
-    } catch (error) {
-      openErrorAlert(error);
-    }
-  }, [editedClothes]);
-
   return (
     <Box>
       <Stack spacing={3} sx={{ maxHeight: '60vh', overflow: 'auto', mb: 3 }}>
@@ -169,20 +142,13 @@ export default function ClothesDetailEdit({ clothes, attributeDefinitions, onCha
         ))}
       </Stack>
 
-      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 1 }}>
-        <Box>
-          <Button variant="outlined" onClick={handleSearchByUrl}>
-            구매 링크로 의상 정보 불러오기
-          </Button>
-        </Box>
-        <Box sx={{ display: 'flex', gap: 1 }}>
-          <Button variant="contained" onClick={handleSubmit}>
-            저장
-          </Button>
-          <Button variant="outlined" onClick={onCancel}>
-            취소
-          </Button>
-        </Box>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', gap: 1 }}>
+        <Button variant="contained" onClick={handleSubmit}>
+          저장
+        </Button>
+        <Button variant="outlined" onClick={onCancel}>
+          취소
+        </Button>
       </Box>
     </Box>
   );

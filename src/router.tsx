@@ -9,6 +9,7 @@ import UserManagementPage from './pages/admin/UserManagementPage';
 import ClosetPage from './pages/ClosetPage';
 import FeedPage from './pages/FeedPage';
 import Home from './pages/Home';
+import PasswordResetPage from './pages/PasswordResetPage';
 import ProfileMamagementPage from './pages/ProfileMamagementPage';
 import ProfilePage from './pages/ProfilePage';
 import RecommendationPage from './pages/RecommendationPage';
@@ -26,6 +27,7 @@ export const ROUTE_OBJECTS: Record<string, { path: string; title: string }> = {
   signIn: { path: '/sign-in', title: '로그인' },
   signUp: { path: '/sign-up', title: '회원가입' },
   signOut: { path: '/sign-out', title: '로그아웃' },
+  passwordReset: { path: '/password-reset', title: '비밀번호 재설정' },
   profileManagement: { path: '/profile-management', title: '프로필 관리' },
   profile: { path: '/profile', title: '프로필' },
 };
@@ -89,6 +91,10 @@ const router = createHashRouter([
   {
     path: ROUTE_OBJECTS.signOut.path,
     element: <SignOutPage />,
+  },
+  {
+    path: ROUTE_OBJECTS.passwordReset.path,
+    element: <PasswordResetPage />,
   },
 ]);
 

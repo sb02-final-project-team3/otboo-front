@@ -61,22 +61,16 @@ const useAuthStore = create<Store>((set, get) => ({
     try {
       const accessToken = await signIn({ email, password });
       const { userId, email: emailFromToken, name, role } = parseAccessToken(accessToken);
-      
-      const authentication = {
-      userId,
-      email: emailFromToken,
-      name,
-      role,
-      accessToken,
-    };
-
-    console.log('✅ 인증 정보:', authentication);
-
-    set({
-      isAuthenticated: true,
-      authentication: authentication, // 생성된 객체를 상태에 저장
-    });
-
+      set({
+        isAuthenticated: true,
+        authentication: {
+          userId,
+          email: emailFromToken,
+          name,
+          role,
+          accessToken,
+        },
+      });
     } catch (error) {
       console.error('useAuthStore.signIn', error);
       set({ error: error as ErrorResponse });
