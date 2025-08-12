@@ -82,3 +82,8 @@ export const updateClothesAttributeDef = async (
 export const deleteClothesAttributeDef = async (definitionId: string): Promise<void> => {
   await apiClient.delete(`/api/clothes/attribute-defs/${definitionId}`);
 };
+
+export const getClothesByUrl = async (url: string): Promise<ClothesDto> => {
+  const response = await apiClient.get<ClothesDto>(`/api/clothes/extractions`, { params: { url } });
+  return response.data;
+};

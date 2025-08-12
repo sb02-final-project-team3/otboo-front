@@ -81,13 +81,7 @@ const useClothesAttributeDefinitionStore = create<Store>((set, get) => ({
 
     set({ isLoading: true, error: null });
     try {
-      const createRequest: ClothesAttributeDefCreateRequest = {
-        name: request.name,
-        selectableValues: request.selectableValues,
-      };
-
-      const attributeDef = await createClothesAttributeDef(createRequest);
-      
+      const attributeDef = await createClothesAttributeDef(request);
       set((state) => ({ attributeDefinitions: [...state.attributeDefinitions, attributeDef] }));
     } catch (error) {
       console.error('useClothesAttributeDefinitionStore.addClothesAttributeDef', error);
