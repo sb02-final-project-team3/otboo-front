@@ -33,7 +33,7 @@ const initialParams: FeedCursorRequest = {
   cursor: undefined,
   idAfter: undefined,
   sortBy: 'createdAt',
-  sortDirection: 'DESCENDING',
+  sortDirection: 'DESCENDING', // 이거 DESENDING 고정인데 왜 파라미터로 넣으라고 한거임 ?
   limit: 20,
 };
 

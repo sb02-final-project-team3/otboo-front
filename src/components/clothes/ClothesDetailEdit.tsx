@@ -70,11 +70,17 @@ export default function ClothesDetailEdit({ clothes, attributeDefinitions, onCha
   );
 
   const handleSubmit = useCallback(async () => {
-    const definedAttributes = editedClothes.attributes.filter((a) => a.value !== '');
+  const sanitizedAttributes = editedClothes.attributes
+    .filter((a) => a.value !== '')
+    .map((a) => ({
+      definitionId: a.definitionId,
+      value: a.value,
+    }));
 
-    await onChange({ ...editedClothes, attributes: definedAttributes }, imageFile);
-    setImageFile(undefined);
-  }, [editedClothes, imageFile, onChange]);
+  await onChange({ ...editedClothes, attributes: sanitizedAttributes } as any, imageFile);
+  setImageFile(undefined);
+}, [editedClothes, imageFile, onChange]);
+
 
   const clearChanges = useCallback(() => {
     setEditedClothes(deepCopy(clothes));
